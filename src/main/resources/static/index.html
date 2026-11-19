@@ -580,6 +580,53 @@
         .chat-message{white-space:pre-wrap;line-height:1.6;padding:11px;margin:7px 0;border-radius:9px;background:#fcf4ed}
         .chat-message.student{background:#dff5ee}.chat-question,.chat-input{width:100%;box-sizing:border-box;border:1px solid #e0c8b3;border-radius:8px;padding:10px;font:inherit;margin-bottom:9px;background:white;color:#3c2816}
         @media print{.student-controls,.answer-feedback,.chat-panel{display:none!important}.student-work{background:white;border:1px solid #ccc}.student-answer{border:1px solid #bbb}}
+        
+        /* Version 2 - Desktop UI Improvement */
+        
+        .chat-panel {
+            display: none;
+        }
+        
+        .preview-mode .chat-panel {
+            display: block;
+        }
+        
+        .question p {
+            font-size: 18px;
+        }
+        
+        @media screen and (min-width: 1100px) {
+        
+            .workspace {
+                grid-template-columns: 1fr 1.6fr;
+                align-items: start;
+            }
+        
+            .topic-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        
+            main.preview-mode {
+                display: grid;
+                grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+                gap: 24px;
+                align-items: start;
+            }
+        
+            .preview-mode .welcome,
+            .preview-mode .tabs {
+                grid-column: 1 / -1;
+                margin-bottom: 0;
+            }
+        
+            .preview-mode .chat-panel {
+                margin: 35px 0;
+            }
+        
+            .welcome {
+                padding: 24px 32px;
+            }
+        }
 
     </style>
 </head>
