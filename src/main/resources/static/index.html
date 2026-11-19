@@ -920,6 +920,112 @@
       ]
     };
 
+window.JAVA_BANK["Loops"] = [
+    [
+        "For loop",
+        "Predict the output: for (int i = 1; i <= 5; i++) { System.out.print(i); }",
+        "12345"
+    ],
+    [
+        "While loop",
+        "Predict the output: int i = 3; while (i > 0) { System.out.print(i); i--; }",
+        "321"
+    ],
+    [
+        "Do-while loop",
+        "Predict the output: int i = 5; do { System.out.print(i); i++; } while (i < 5);",
+        "5"
+    ],
+    [
+        "Loop increment",
+        "Predict the output: for (int i = 0; i < 6; i += 2) { System.out.print(i); }",
+        "024"
+    ],
+    [
+        "Sum using a loop",
+        "Predict the output: int sum = 0; for (int i = 1; i <= 5; i++) { sum += i; } System.out.println(sum);",
+        "15"
+    ],
+    [
+        "Break statement",
+        "Predict the output: for (int i = 0; i < 5; i++) { if (i == 3) break; System.out.print(i); }",
+        "012"
+    ],
+    [
+        "Continue statement",
+        "Predict the output: for (int i = 1; i <= 5; i++) { if (i == 2) continue; System.out.print(i); }",
+        "1345"
+    ],
+    [
+        "Nested loops",
+        "Predict the output: int count = 0; for (int i = 0; i < 2; i++) { for (int j = 0; j < 3; j++) { count++; } } System.out.println(count);",
+        "6"
+    ],
+    [
+        "Loop concept",
+        "Which loop executes its body at least once?",
+        "do-while"
+    ],
+    [
+        "Infinite loop",
+        "What boolean value can be used in a while loop condition to make it repeat indefinitely?",
+        "true"
+    ]
+];
+
+window.JAVA_BANK["Arrays"] = [
+    [
+        "Array indexing",
+        "Predict the output: int[] a = {10, 20, 30}; System.out.println(a[1]);",
+        "20"
+    ],
+    [
+        "Array length",
+        "Predict the output: int[] a = {2, 4, 6, 8}; System.out.println(a.length);",
+        "4"
+    ],
+    [
+        "Default array value",
+        "Predict the output: int[] a = new int[5]; System.out.println(a[0]);",
+        "0"
+    ],
+    [
+        "Updating an array",
+        "Predict the output: int[] a = {1, 2, 3}; a[1] = 9; System.out.println(a[1]);",
+        "9"
+    ],
+    [
+        "Array sum",
+        "Predict the output: int[] a = {3, 5, 7}; int sum = 0; for (int i = 0; i < a.length; i++) { sum += a[i]; } System.out.println(sum);",
+        "15"
+    ],
+    [
+        "Enhanced for loop",
+        "Predict the output: int[] a = {2, 4, 6}; for (int n : a) { System.out.print(n); }",
+        "246"
+    ],
+    [
+        "Maximum value",
+        "Predict the output: int[] a = {4, 9, 2}; int max = a[0]; for (int n : a) { if (n > max) max = n; } System.out.println(max);",
+        "9"
+    ],
+    [
+        "Array reference",
+        "Predict the output: int[] a = {1, 2}; int[] b = a; b[0] = 7; System.out.println(a[0]);",
+        "7"
+    ],
+    [
+        "Last array index",
+        "What is the last valid index of an array named a?",
+        "a.length - 1"
+    ],
+    [
+        "Array exception",
+        "Which exception occurs when accessing an invalid array index?",
+        "ArrayIndexOutOfBoundsException"
+    ]
+];
+
 </script>
 <script>
     'use strict';
