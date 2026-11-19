@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content ="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Java Test Generator</title>
+    <style>
+        :root{
+            --sky:#ffead8;
+            --pale:#fff8f2;
+            --blue:#c96d1d;
+            --deep:#6e4017;
+            --text:#523924;
+            --muted:#7f6650;
+            --line:#f88f33;
+            --white:#fff;
+        }
+        *{
+            box-sizing: border-box;
+        }
+        body{
+            margin:0;
+            font-family:Arial, Helvetica, sans-serif;
+            line-height:1.6;
+            background:#fffaf5;
+            color:var(--text);
+        }
+        button,input,select{font:inherit;}
+        button{
+            cursor:pointer;
+        }
+        .topbar{
+            background:#ffefe1;
+            border-bottom:1px solid #f8dec8;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:18px max(25px, calc((100vw - 1180px) / 2));
+            gap:20px
+        }
+        .logo{
+            display:flex;
+            align-items:center;
+            gap:15px;
+            color:var(--deep)
+        }
+        .logo-mark{
+            display:grid;
+            place-items:center;
+            width:49px;
+            height:49px;
+            border-radius:14px;
+            background:#fed8b7;
+            font-size:33px;
+            font-weight:bold
+        }
+        .logo strong{
+            display:block;
+            font-size:21px;
+            line-height:1.25
+        }
+        .logo small{
+            display:block;
+            font-size:12px;
+            letter-spacing: .04em;
+            color:var(--muted);
+            margin-top:4px;
+        }
+        .header-tag{
+            background:white;
+            border:1px solid #f6ddc8;
+            border-radius:25px;
+            padding:8px 15px;
+            font-size:12px;
+            color:var(--deep);
+            font-weight:bold
+        }
+        main{
+            max-width:1220px;
+            margin:auto;
+            padding:30px 22px
+        }
+        .welcome {
+             display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:20px;
+            padding: 37px 42px;
+            background:linear-gradient(115deg,#ff983d,#fff6ef);
+            border:1px solid #f7dec8;
+            border-radius:20px;
+            margin-bottom:27px;
+        }
+        .welcome h1 {
+            font-size:clamp(27px,3.5vw,42px);
+            line-height:1.2;
+            color:#744115;
+            margin:11px 0
+        }
+        .welcome p {
+            max-width:690px;
+            margin:0;
+            color:#8c6d51
+        }
+        .eyebrow {
+            font-size:11px;
+            letter-spacing:.16em;
+            font-weight:bold;
+            color:#b86923
+        }
+        .hero-icon{
+            font-size:31px;
+            white-space:nowrap;
+            color:#be7535;
+            background:#ffffff99;
+            border:1px solid #f7dcc4;
+            padding:20px 25px;
+            border-radius:18px;
+        }
+        .tabs {
+            display:flex;
+            flex-wrap:wrap;
+            gap:12px;
+            border-bottom:1px solid #f3e0d0;
+            padding:0 4px 13px;
+            margin-bottom:22px
+        }
+        .tab{
+            border:1px solid transparent;
+            border-radius:10px;
+            padding:12px 20px;
+            background:transparent;
+            color:#8d6f55;
+            font-weight:bold;
+        }
+        .tab:hover {
+            background: #fff2e6
+        }
+        .tab.active {
+            background:#ffead7;
+            color:#8c490f;
+            border-color:#f4d3b7
+        }
+        .tab-panel{
+            display:none;
+        }
+        .tab-panel.active {
+            display:block;
+        }
+        .workspace {
+            display:grid;
+            grid-template-columns:370px minmax(0,1fr);
+            gap:22px
+        }
+        .card{
+            background:white;
+            border:1px solid var(--line);
+            border-radius:18px;
+            padding:29px;
+            box-shadow:0 5px 24px #8a4a120a
+        }
+        .section-heading{
+            display:flex;
+            align-items:center;
+            gap:14px;
+            margin-bottom:22px;
+        }
+        .step {
+            display:grid;
+            place-items:center;
+            min-width:43px;
+            height:43px;
+            background:#ffebd9;
+            color:#ab6120;
+            border-radius:12px;
+            font-weight:bold
+        }
+        .section-heading h2 {
+            font-size:22px;
+            color:var(--deep);
+            line-height:1.3;
+            margin:0
+        }
+        .section-heading p{
+            font-size:13px;
+            color:var(--muted);
+            margin:4px 0 0
+        }
+        label {
+            display:block;
+            font-size:13px;
+            font-weight:bold;
+            color:#725032;
+            margin:17px 0  7px
+        }
+        select,input:not([type=checkbox]){
+            display:block;
+            width:100%;
+            min-height:46px;
+            border:1px solid #ecd0b8;
+            background:#fffdfb;
+            border-radius:9px;
+            padding:10px 13px;
+            color:#674221
+        }
+        select:focus,input:focus,button:focus-visible{
+            outline:3px solid #ffcea4;
+            outline-offset:2px
+        }
+        .two-fields{
+            display: grid;
+            grid-template-columns:1fr 1fr;
+            gap:15px
+        }
+        .check{
+            display:flex;
+            align-items:center;
+            gap:11px;
+            margin:22px 0
+        }
+        .check input {
+            width:17px;
+            height:17px;
+            accent-color:#cd7223
+        }
+        .primary,.outline{
+            border-radius:10px;
+            padding:12px 19px;
+            font-size:14px;
+            font-weight:bold;
+            border:1px solid #c46d20
+        }
+        .primary{
+            background: #a4500c;
+            color:white
+        }
+        .primary:hover{
+            background:#a25614
+        }
+        .outline{
+            background:#fff4ea;
+            color:#9c5314;
+            border-color:#f4d4b8
+        }
+        .outline:hover{
+            background:#ffead7;
+        }
+        .settings .primary{
+            width:100%;
+            margin-top:2px;
+        }
+        .status{
+            font-size:12px;
+            color:#96785d;
+            margin:13px 0 0
+        }
+        .status.error {
+            color:#b3261e;
+            font-weight:bold
+        }
+        .metrics {
+            display:grid;
+            grid-template-columns:repeat(3,minmax(0,1fr));
+            gap:14px
+        }
+
+        .metric {
+            background:#fff6ee;
+            border:1px solid #f9e4d2;
+            border-radius:14px;
+            padding:20px 14px
+        }
+
+        .metric strong {
+            display:block;
+            font-size:31px;
+            color:#aa5b15;
+            line-height:1.2
+        }
+
+        .metric span {
+            display:block;
+            font-size:12px;
+            color:#947357;
+            margin-top:8px
+        }
+
+        .info {
+            margin-top:26px;
+            padding:23px;
+            border-radius:14px;
+            background:#fffbf7;
+            border:1px solid #f9ebdf
+        }
+
+        .info h3 {
+            margin:0 0 8px;
+            color:var(--deep)
+        }
+
+        .info p {
+            margin:0;
+            color:#8b6e55;
+            font-size:14px
+        }
+
+        .actions {
+            display:flex;
+            flex-wrap:wrap;
+            gap:12px;
+            margin-top:20px
+        }
+
+        .topic-grid {
+            display:grid;
+            grid-template-columns:repeat(2,minmax(0,1fr));
+            gap:14px
+        }
+
+        .topic-card {
+            display:flex;
+            flex-direction:column;
+            align-items:flex-start;
+            text-align:left;
+            gap:7px;
+            padding:20px;
+            border-radius:13px;
+            background:#fff9f4;
+            border:1px solid #f8e4d3;
+            color:var(--text)
+        }
+
+        .topic-card:hover {
+            background:#fff0e3;
+            border-color:#f1c299
+        }
+
+        .topic-number {
+            font-size:12px;
+            font-weight:bold;
+            color:#c17431
+        }
+
+        .topic-card strong {
+            font-size:16px
+        }
+
+        .topic-card span:not(.topic-number) {
+            font-size:12px;
+            color:var(--muted)
+        }
+
+        .topic-card .topic-link {
+            color:#b66015!important;
+            font-weight:bold;
+            margin-top:5px
+        }
+
+        .preview-toolbar {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:20px;
+            border-bottom:1px solid var(--line);
+            padding-bottom:18px;
+            margin-bottom:22px
+        }
+
+        .preview-toolbar h2 {
+            margin:6px 0 0;
+            color:var(--deep)
+        }
+
+        .preview-toolbar .actions {
+            margin:0
+        }
+
+        .compact {
+            white-space:nowrap
+        }
+
+        .placeholder {
+            text-align:center;
+            padding:65px 20px;
+            background:#fff9f3;
+            border:1px dashed #f1d3b8;
+            border-radius:13px;
+            color:#9b7e65
+        }
+
+        .test-meta {
+            padding:15px 0;
+            border-bottom:2px solid #f7e0cc;
+            margin-bottom:12px;
+            font-size:14px
+        }
+
+        .test-meta p {
+            margin:7px 0
+        }
+
+        .question {
+            padding:18px 0;
+            border-bottom:1px solid #f4eae1;
+            break-inside:avoid
+        }
+
+        .question p {
+            margin:9px 0;
+            font-size:16px
+        }
+
+        .question-label {
+            font-size:12px;
+            color:#9e826a
+        }
+
+        .point-label {
+            font-size:12px;
+            color:#9a7d64
+        }
+
+        .answer-space {
+            height:55px;
+            border-bottom:1px dotted #e5d2c2
+        }
+
+        .key-row {
+            padding:13px 0;
+            border-bottom:1px solid #f6eadf;
+            break-inside:avoid
+        }
+
+        footer {
+            text-align:center;
+            padding:30px;
+            color:#a38c77;
+            font-size:12px
+        }
+
+        @media(max-width:850px) {
+            .workspace {
+                grid-template-columns:1fr
+            }
+
+            .hero-icon {
+                display:none
+            }
+
+            .welcome {
+                padding:27px
+            }
+
+            .preview-toolbar {
+                align-items:flex-start;
+                flex-direction:column
+            }
+
+
+        }
+
+        @media(max-width:520px) {
+            .header-tag {
+                display:none
+            }
+
+            .card {
+                padding:20px
+            }
+
+            .metrics {
+                grid-template-columns:1fr 1fr
+            }
+
+            .topic-grid {
+                grid-template-columns:1fr
+            }
+
+            .tabs {
+                gap:5px
+            }
+
+            .tab {
+                padding:10px 12px;
+                font-size:13px
+            }
+
+            .two-fields {
+                grid-template-columns:1fr
+            }
+
+
+        }
+
+        @media print {
+            body {
+                background:white
+            }
+
+            header,.welcome,.tabs,footer,.preview-toolbar .actions,.settings,.overview {
+                display:none!important
+            }
+
+            main {
+                padding:0;
+                max-width:none
+            }
+
+            .card {
+                padding:0;
+                border:none;
+                box-shadow:none
+            }
+
+            .tab-panel {
+                display:none!important
+            }
+
+            .tab-panel.active {
+                display:block!important
+            }
+
+            .question {
+                break-inside:avoid
+            }
+
+            .paper {
+                border:none
+            }
+
+
+        }
+
+        /* Orange theme override */ :root {
+                                          color-scheme:light
+                                      }
+
+        button.primary {
+            background:#a4500c!important;
+            color:#fff!important
+        }
+
+        body {
+            background:#fff7f0!important
+        }
+
+        header.topbar {
+            background:#ffead8!important
+        }
+
+        .welcome {
+            background:linear-gradient(115deg,#ffe7d2,#fff9f4)!important
+        }
+    </style>
+    <style>
+
+        /* Student response windows and built-in Java tutor */
+        .student-work{margin-top:14px;padding:14px;border:1px solid #f0dbc8;border-radius:12px;background:#fff9f4}
+        .student-work label{display:block;font-weight:650;margin-bottom:8px;color:#603815}
+        .student-answer{width:100%;box-sizing:border-box;min-height:85px;padding:12px;border:1px solid #dec1a8;border-radius:8px;background:white;font:inherit;resize:vertical;color:#3c2816}
+        .student-controls{display:flex;flex-wrap:wrap;gap:9px;margin-top:9px}
+        .student-controls button,#chat-send{border:0;border-radius:8px;padding:9px 13px;cursor:pointer;background:#a75d1d;color:white;font:inherit;font-weight:600}
+        .student-controls .ask-question{background:#7a3d08}
+        .answer-feedback{margin-top:9px;font-weight:600}.answer-feedback.correct{color:#176537}.answer-feedback.incorrect{color:#b3261e}
+        .chat-panel{margin-top:22px;padding:20px;border:1px solid #ead0ba;border-radius:14px;background:#fff6ee}
+        .chat-panel h3{margin:0 0 6px;color:#693d16}.chat-panel p{margin:0 0 12px}
+        .chat-history{max-height:400px;overflow:auto;background:white;border:1px solid #edddcf;border-radius:10px;padding:12px;min-height:75px;margin-bottom:12px}
+        .chat-message{white-space:pre-wrap;line-height:1.6;padding:11px;margin:7px 0;border-radius:9px;background:#fcf4ed}
+        .chat-message.student{background:#dff5ee}.chat-question,.chat-input{width:100%;box-sizing:border-box;border:1px solid #e0c8b3;border-radius:8px;padding:10px;font:inherit;margin-bottom:9px;background:white;color:#3c2816}
+        @media print{.student-controls,.answer-feedback,.chat-panel{display:none!important}.student-work{background:white;border:1px solid #ccc}.student-answer{border:1px solid #bbb}}
+
+    </style>
+</head>
+<body>
+<header class="topbar">
+    <div class="logo">
+    <span class="logo-mark">
+     J
+    </span>
+        <div>
+            <strong>
+                Java Test Generator
+            </strong>
+        </div>
+    </div>
+</header>
+<main>
+    <section class="welcome">
+        <div>
+     <span class="eyebrow">
+      ASSESSMENT DESIGN MADE SIMPLE
+     </span>
+            <h1>
+                Create your Java tests.
+            </h1>
+            <p>
+                Choose a topic, configure your assessment, and create a printable test with a separate instructor answer key.
+            </p>
+        </div>
+        <div class="hero-icon">
+            { code; }
+        </div>
+    </section>
+    <nav aria-label="Workspace sections" class="tabs">
+        <button class="tab active" data-tab="builder" type="button">
+            Test Builder
+        </button>
+        <button class="tab" data-tab="topics" type="button">
+            Browse Topics
+        </button>
+        <button class="tab" data-tab="preview" type="button">
+            Test Preview
+        </button>
+        <button class="tab" data-tab="answers" type="button">
+            Answer Key
+        </button>
+    </nav>
+    <section class="tab-panel active" id="builder">
+        <div class="workspace">
+            <aside class="card settings">
+                <div class="section-heading">
+       <span class="step">
+        01
+       </span>
+                    <div>
+                        <h2>
+                            Test Settings
+                        </h2>
+                        <p>
+                            Customize your assessment
+                        </p>
+                    </div>
+                </div>
+                <label for="topic">
+                    Java topic
+                </label>
+                <select id="topic">
+                    <option value="ALL">
+                        All topics (mixed test)
+                    </option>
+                </select>
+                <label for="count">
+                    Number of questions
+                </label>
+                <select id="count">
+                    <option value="5">
+                        5 questions
+                    </option>
+                    <option selected="" value="10">
+                        10 questions
+                    </option>
+                    <option value="15">
+                        15 questions
+                    </option>
+                </select>
+                <label for="title">
+                    Test title
+                </label>
+                <input id="title" maxlength="90" value="Java Assessment"/>
+                <div class="two-fields">
+                    <div>
+                        <label for="duration">
+                            Duration (minutes)
+                        </label>
+                        <input id="duration" max="300" min="1" type="number" value="60"/>
+                    </div>
+                    <div>
+                        <label for="points">
+                            Points per question
+                        </label>
+                        <input id="points" max="100" min="1" type="number" value="5"/>
+                    </div>
+                </div>
+                <label class="check">
+                    <input checked="" id="shuffle" type="checkbox"/>
+                    <span>
+        Shuffle questions
+       </span>
+                </label>
+                <button class="primary" id="generate" type="button">
+                    Generate Test →
+                </button>
+                <p class="status" id="status" role="status">
+                    Ready to generate your test.
+                </p>
+            </aside>
+            <div class="card overview">
+                <div class="section-heading">
+       <span class="step">
+        02
+       </span>
+                    <div>
+                        <h2>
+                            Assessment Overview
+                        </h2>
+                        <p>
+                            Your test at a glance
+                        </p>
+                    </div>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <strong id="metric-topics">
+                            2
+                        </strong>
+                        <span>
+         Java topics
+        </span>
+                    </div>
+                    <div class="metric">
+                        <strong id="metric-types">
+                            20
+                        </strong>
+                        <span>
+         Questions in bank
+        </span>
+                    </div>
+                    <div class="metric">
+                        <strong id="metric-questions">
+                            10
+                        </strong>
+                        <span>
+         Selected questions
+        </span>
+                    </div>
+                </div>
+                <div class="info">
+                    <h3>
+                        How it works
+                    </h3>
+                    <p>
+                        Choose a Java topic or combine all topics. Select the number of questions, then generate your test. Use the preview and answer-key tabs to review or print your assessment.
+                    </p>
+                </div>
+                <div class="actions">
+                    <button class="outline" id="go-topics" type="button">
+                        Explore Topics
+                    </button>
+                    <button class="outline" id="go-preview" type="button">
+                        Open Preview
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="tab-panel" id="topics">
+        <div class="card">
+            <div class="section-heading">
+      <span class="step">
+       03
+      </span>
+                <div>
+                    <h2>
+                        Java Topic Library
+                    </h2>
+                    <p>
+                        Choose from 2 Java topics, each with 10 questions
+                    </p>
+                </div>
+            </div>
+            <div class="topic-grid" id="topic-grid">
+            </div>
+        </div>
+    </section>
+    <section class="tab-panel" id="preview">
+        <div class="card paper">
+            <div class="preview-toolbar">
+                <div>
+       <span class="eyebrow">
+        STUDENT VERSION
+       </span>
+                    <h2 id="test-heading">
+                        Test Preview
+                    </h2>
+                </div>
+                <div class="actions">
+                    <button class="outline" id="print" type="button">
+                        Print Student Test
+                    </button>
+                    <button class="primary compact" id="preview-key" type="button">
+                        View Answer Key
+                    </button>
+                </div>
+            </div>
+            <div class="placeholder" id="test-output">
+                No test generated yet. Visit Test Builder and click Generate Test.
+            </div>
+        </div>
+    </section>
+    <section class="chat-panel" id="chat-panel" aria-label="Java help chatbot"><h3>Java Help Chatbot</h3><p>Select a question or type its question number or exact text to see the method and answer.</p><div class="chat-history" id="chat-history" aria-live="polite"><div class="chat-message tutor">Hello! Generate a test, then choose a question and ask me to explain it step by step.</div></div><select class="chat-question" id="chat-question" aria-label="Choose test question"><option value="">Choose a question (optional)</option></select><textarea class="chat-input" id="chat-input" rows="2" placeholder="Example: Question 2 — please show the steps"></textarea><button type="button" id="chat-send">Ask chatbot</button></section>
+    <section class="tab-panel" id="answers">
+        <div class="card paper">
+            <div class="preview-toolbar">
+                <div>
+       <span class="eyebrow">
+        INSTRUCTOR VERSION
+       </span>
+                    <h2>
+                        Answer Key
+                    </h2>
+                </div>
+                <button class="primary compact" id="keyprint" type="button">
+                    Print Answer Key
+                </button>
+            </div>
+            <div class="placeholder" id="answer-output">
+                Generate a test to view the answer key.
+            </div>
+        </div>
+    </section>
+</main>
+<footer>
+    Java Test Generator • Spring Boot Learning Application
+</footer>
+<script>
+    window.JAVA_BANK = {
+      "Variables & Data Types": [
+        [
+          "Integer division",
+          "Predict the output: int x = 7 / 2; System.out.println(x);",
+          "3"
+        ],
+        [
+          "Modulus operator",
+          "Predict the output: System.out.println(17 % 5);",
+          "2"
+        ],
+        [
+          "Explicit casting",
+          "Predict the output: double d = 9.78; int n = (int) d; System.out.println(n);",
+          "9"
+        ],
+        [
+          "String concatenation",
+          "Predict the output: System.out.println(\"Sum: \" + 2 + 3);",
+          "Sum: 23"
+        ],
+        [
+          "Char arithmetic",
+          "Predict the output: char c = 'A'; c += 2; System.out.println(c);",
+          "C"
+        ],
+        [
+          "Mixed-type division",
+          "Predict the output: System.out.println(5 / 2.0);",
+          "2.5"
+        ],
+        [
+          "Primitive size",
+          "How many bits does an int use in Java?",
+          "32"
+        ],
+        [
+          "Default value",
+          "What is the default value of a boolean instance variable?",
+          "false"
+        ],
+        [
+          "Constants",
+          "Which keyword makes a variable a constant that cannot be reassigned?",
+          "final"
+        ],
+        [
+          "Choosing a type",
+          "Which primitive type stores a single 16-bit Unicode character?",
+          "char"
+        ]
+      ],
+      "Conditionals": [
+        [
+          "Simple if-else",
+          "Predict the output: int a = 5; if (a > 3) System.out.println(\"High\"); else System.out.println(\"Low\");",
+          "High"
+        ],
+        [
+          "Else-if chain",
+          "Predict the output: int score = 85; if (score >= 90) System.out.println(\"A\"); else if (score >= 80) System.out.println(\"B\"); else System.out.println(\"C\");",
+          "B"
+        ],
+        [
+          "Switch fall-through",
+          "Predict the output: int d = 2; switch (d) { case 1: System.out.print(\"A\"); case 2: System.out.print(\"B\"); case 3: System.out.print(\"C\"); break; default: System.out.print(\"D\"); }",
+          "BC"
+        ],
+        [
+          "Ternary operator",
+          "Predict the output: int n = 8; String s = (n % 2 == 0) ? \"even\" : \"odd\"; System.out.println(s);",
+          "even"
+        ],
+        [
+          "Logical operators",
+          "Predict the output: boolean p = true, q = false; System.out.println(p && !q);",
+          "true"
+        ],
+        [
+          "Short-circuit evaluation",
+          "Predict the output: int i = 0; if (i != 0 && 10 / i > 1) System.out.println(\"Yes\"); else System.out.println(\"No\");",
+          "No"
+        ],
+        [
+          "Comparing Strings",
+          "Which String method compares the contents of two strings for equality?",
+          "equals()"
+        ],
+        [
+          "Switch keyword",
+          "Which keyword stops execution from falling through to the next case in a switch?",
+          "break"
+        ],
+        [
+          "Relational result type",
+          "What data type does the expression (x > y) produce?",
+          "boolean"
+        ],
+        [
+          "Writing a condition",
+          "Write a boolean expression that is true when x is between 1 and 10, inclusive.",
+          "x >= 1 && x <= 10"
+        ]
+      ]
+    };
+
+</script>
+<script>
+    'use strict';
+
+    const bank=window.JAVA_BANK||{};
+
+    const $=id=>document.getElementById(id);
+
+    const names=Object.keys(bank);
+
+
+    let current=[], selectedTitle='', selectedDuration=60, selectedPoints=5, selectedTopic='ALL';
+
+    const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+    function activate(tab){document.querySelectorAll('.tab').forEach(el=>{const yes=el.dataset.tab===tab;el.classList.toggle('active',yes);el.setAttribute('aria-selected',String(yes));});document.querySelectorAll('.tab-panel').forEach(el=>el.classList.toggle('active',el.id===tab));}
+    document.querySelectorAll('.tab').forEach(el=>el.addEventListener('click',()=>activate(el.dataset.tab)));
+    $('topic').innerHTML='<option value="ALL">All topics (mixed test)</option>'+names.map((n,i)=>`<option value="${i}">${escapeHtml(n)}</option>`).join('');
+    $('metric-topics').textContent=names.length;
+    $('metric-types').textContent=Object.values(bank).reduce((n,rows)=>n+rows.length,0);
+    $('topic-grid').innerHTML=names.map((n,i)=>`<button type="button" class="topic-card" data-topic="${i}"><span class="topic-number">${String(i+1).padStart(2,'0')}</span><strong>${escapeHtml(n)}</strong><span>${bank[n].length} questions</span><span class="topic-link">Select topic →</span></button>`).join('');
+    document.querySelectorAll('.topic-card').forEach(el=>el.addEventListener('click',()=>{$('topic').value=el.dataset.topic;activate('builder');$('topic').focus();}));
+    $('go-topics').addEventListener('click',()=>activate('topics'));
+    $('go-preview').addEventListener('click',()=>activate('preview'));
+    $('preview-key').addEventListener('click',()=>activate('answers'));
+    $('count').addEventListener('change',()=>{$('metric-questions').textContent=$('count').value;});
+    function showError(message, fieldId){
+        $('status').textContent=message;
+        $('status').classList.add('error');
+        if(fieldId)$(fieldId).focus();
+    }
+    function readSettings(){
+        const title=$('title').value.trim();
+        const duration=Number($('duration').value);
+        const points=Number($('points').value);
+        if(!title){showError('Please enter a test title.','title');return null;}
+        if(!Number.isInteger(duration)||duration<1||duration>300){
+            showError('Duration must be a whole number from 1 to 300 minutes.','duration');return null;
+        }
+        if(!Number.isInteger(points)||points<1||points>100){
+            showError('Points per question must be a whole number from 1 to 100.','points');return null;
+        }
+        return {title,duration,points};
+    }
+    function buildPool(topicIndex){
+        const topicNames=topicIndex==='ALL'?names:[names[Number(topicIndex)]];
+        return topicNames.flatMap(n=>bank[n].map(([type,q,a],order)=>({topic:n,type,q,a,order})));
+    }
+    function generate(){
+        $('status').classList.remove('error');
+        const settings=readSettings();
+        if(!settings)return;
+        const requested=Number($('count').value), topicIndex=$('topic').value;
+        selectedTopic=topicIndex==='ALL'?'Mixed Java Topics':names[Number(topicIndex)];
+        const pool=buildPool(topicIndex);
+        if(!pool.length){showError('No questions available for this topic.');return;}
+
+        // Pick a random set every time; never repeat a question.
+        const count=Math.min(requested,pool.length);
+        current=shuffle([...pool]).slice(0,count);
+        if(!$('shuffle').checked){
+            // Keep the bank's order when shuffling is turned off.
+            current.sort((x,y)=>names.indexOf(x.topic)-names.indexOf(y.topic)||x.order-y.order);
+        }
+        selectedTitle=settings.title;
+        selectedDuration=settings.duration;
+        selectedPoints=settings.points;
+        $('metric-questions').textContent=count;
+        $('test-heading').textContent=selectedTitle;
+        $('test-output').classList.remove('placeholder');
+        $('test-output').innerHTML=`<div class="test-meta"><p><strong>Name:</strong> __________________________________ <strong>Date:</strong> _______________</p><p><strong>Topic:</strong> ${escapeHtml(selectedTopic)} &nbsp; <strong>Duration:</strong> ${selectedDuration} minutes &nbsp; <strong>Total:</strong> ${count*selectedPoints} points</p></div>`+current.map((item,i)=>`<article class="question"><div class="question-label">${escapeHtml(item.topic)} · ${escapeHtml(item.type)}</div><p><strong>${i+1}.</strong> ${escapeHtml(item.q)} <span class="point-label">(${selectedPoints} points)</span></p><div class="student-work"><label for="student-answer-${i}">Your answer</label><textarea id="student-answer-${i}" class="student-answer" data-index="${i}" rows="3" placeholder="Type your answer here..."></textarea><div class="student-controls"><button type="button" class="check-answer" data-index="${i}">Check answer</button><button type="button" class="ask-question" data-index="${i}">Explain in chatbot</button></div><div class="answer-feedback" id="feedback-${i}" aria-live="polite"></div></div></article>`).join('');
+        $('answer-output').classList.remove('placeholder');
+        $('answer-output').innerHTML=`<div class="test-meta"><strong>${escapeHtml(selectedTitle)}</strong><p>${escapeHtml(selectedTopic)} · ${count} questions · ${count*selectedPoints} points</p></div>`+current.map((item,i)=>`<article class="key-row"><strong>${i+1}.</strong> ${escapeHtml(item.a)}<div class="question-label">${escapeHtml(item.topic)} · ${escapeHtml(item.type)}</div></article>`).join('');
+        $('chat-question').innerHTML='<option value="">Choose a question (optional)</option>'+current.map((item,i)=>`<option value="${i}">Question ${i+1}: ${escapeHtml(item.q.slice(0,72))}</option>`).join('');
+        $('status').textContent=count<requested
+            ?`Only ${pool.length} questions exist for ${selectedTopic}, so the test has ${count} instead of ${requested}.`
+            :`Test generated successfully: ${count} questions. Open Test Preview to review.`;
+        activate('preview');
+    }
+    $('generate').addEventListener('click',generate);
+
+    function printView(which){if(!current.length){alert('Please generate a test first.');activate('builder');return;}activate(which);document.body.dataset.print=which;window.print();}
+    $('print').addEventListener('click',()=>printView('preview'));
+    $('keyprint').addEventListener('click',()=>printView('answers'));
+    window.addEventListener('afterprint',()=>{delete document.body.dataset.print;});
+
+
+    // Student workspace and local, question-bank-based Java tutor.
+    // No external AI service or API key is required.
+    function normalizeAnswer(value) {
+        return String(value).toLowerCase().replace(/\s+/g,'')
+            .replace(/[−–]/g,'-').replace(/×/g,'*').replace(/÷/g,'/')
+            .replace(/\^/g,'').replace(/²/g,'2').replace(/³/g,'3')
+            .replace(/\bplusc\b/g,'+c').replace(/\*/g,'');
+    }
+    function numericAnswer(value) {
+        const s=normalizeAnswer(value);
+        if (/^[+-]?\d+(\.\d+)?(\/[+-]?\d+(\.\d+)?)?$/.test(s)) {
+            const bits=s.split('/');return Number(bits[0])/(bits.length===2?Number(bits[1]):1);
+        }
+        return null;
+    }
+    function answerMatches(given, expected) {
+        const a=normalizeAnswer(given), b=normalizeAnswer(expected);
+        if (!a) return false;
+        if (a===b) return true;
+        const x=numericAnswer(given), y=numericAnswer(expected);
+        return x!==null && y!==null && Number.isFinite(x) && Number.isFinite(y) && Math.abs(x-y)<1e-8;
+    }
+    const topicTips={
+        'Variables & Data Types':'Check the type of every value: int / int drops the decimal, (int) casting cuts off the decimal part, and a String followed by + joins text from left to right.',
+        'Conditionals':'Test the conditions from top to bottom. Only the first true if / else-if branch runs, a switch keeps running into the next case until it reaches break, and && and || stop as soon as the result is known.',
+        'Loops':'Make a trace table of the loop variable. for and while check the condition before the body, do-while checks it after, continue skips to the next round and break leaves the loop.',
+        'Arrays':'Indexes start at 0 and the last one is length - 1. New arrays are filled with 0, 0.0, false or null, and two variables can point to the same array.'
+    };
+    function explainQuestion(item) {
+        const tip=topicTips[item.topic]||'Review the Java rule this question is about.';
+        const isOutput=item.q.startsWith('Predict the output:');
+        const lines=isOutput?[
+            'Step 1: Read the code one statement at a time and write down each variable\'s value.',
+            'Step 2: '+tip,
+            'Step 3: Write exactly what is printed. print stays on the same line; println moves to a new line.'
+        ]:[
+            'Step 1: Find the Java concept the question is asking about.',
+            'Step 2: '+tip,
+            'Step 3: Answer with the exact Java keyword, type, value or expression.'
+        ];
+        return `Question: ${item.q}\n\n${lines.join('\n')}\n\nAnswer in the question bank: ${item.a}`;
+    }
+    function tutorReply(text, selectedIndex) {
+        if (!current.length) return 'Generate a test first so I can use its questions and answer key.';
+        const input=text.trim();
+        if (!input && selectedIndex===null) return 'Enter a question number or choose a question from the list.';
+        let idx=selectedIndex;
+        if (idx===null) {
+            const number=input.match(/^(?:question\s*|q\s*|#)(\d+)\b/i);
+            if (number && Number(number[1])>=1 && Number(number[1])<=current.length) idx=Number(number[1])-1;
+            if (idx===null) idx=current.findIndex(item=>item.q.toLowerCase()===input.toLowerCase());
+            if (idx===-1) idx=current.findIndex(item=>input.length>12 && (item.q.toLowerCase().includes(input.toLowerCase()) || input.toLowerCase().includes(item.q.toLowerCase())));
+        }
+        if (idx===null || idx<0 || idx>=current.length) return 'I can explain questions from the generated test. Select a question from the menu, enter “Question 1”, or paste its exact question text.';
+        return explainQuestion(current[idx]);
+    }
+    function appendChat(role, message) {
+        const node=document.createElement('div');node.className='chat-message '+role;
+        node.textContent=message;$('chat-history').appendChild(node);
+        $('chat-history').scrollTop=$('chat-history').scrollHeight;
+    }
+    function askTutor(index=null) {
+        if (index!==null) $('chat-question').value=String(index);
+        const raw=$('chat-input').value;
+        const indexFromSelect=$('chat-question').value;
+        const chosen=index!==null?index:(indexFromSelect===''?null:Number(indexFromSelect));
+        appendChat('student',raw.trim()||(chosen!==null?`Please explain question ${chosen+1}.`:'Please explain this question.'));
+        appendChat('tutor',tutorReply(raw,chosen));
+        $('chat-input').value='';
+    }
+    $('test-output').addEventListener('click',event=>{
+        const check=event.target.closest('.check-answer');
+        const ask=event.target.closest('.ask-question');
+        if(check){
+            const i=Number(check.dataset.index), given=$('student-answer-'+i).value.trim();
+            const feedback=$('feedback-'+i);
+            feedback.className='answer-feedback '+(!given?'':answerMatches(given,current[i].a)?'correct':'incorrect');
+            feedback.textContent=!given?'Please type your answer first.':answerMatches(given,current[i].a)?'Correct answer!':'Not matched to the answer key. Check your spelling and spacing, or use the chatbot for help.';
+        }
+        if(ask){const i=Number(ask.dataset.index);$('chat-question').value=String(i);askTutor(i);$('chat-panel').scrollIntoView({behavior:'smooth',block:'start'});}
+    });
+    $('chat-send').addEventListener('click',()=>askTutor());
+    $('chat-input').addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();askTutor();}});
+
+</script>
+</body>
+</html>
