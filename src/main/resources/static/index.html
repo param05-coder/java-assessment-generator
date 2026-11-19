@@ -1053,7 +1053,23 @@ window.JAVA_BANK["Arrays"] = [
 
     const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-    function activate(tab){document.querySelectorAll('.tab').forEach(el=>{const yes=el.dataset.tab===tab;el.classList.toggle('active',yes);el.setAttribute('aria-selected',String(yes));});document.querySelectorAll('.tab-panel').forEach(el=>el.classList.toggle('active',el.id===tab));}
+       
+    function activate(tab) {
+        document.querySelectorAll('.tab').forEach(el => {
+            const yes = el.dataset.tab === tab;
+            el.classList.toggle('active', yes);
+            el.setAttribute('aria-selected', String(yes));
+        });
+    
+        document.querySelectorAll('.tab-panel').forEach(el => {
+            el.classList.toggle('active', el.id === tab);
+        });
+    
+        document.querySelector('main').classList.toggle(
+            'preview-mode', tab === 'preview'
+        );
+    }
+
     document.querySelectorAll('.tab').forEach(el=>el.addEventListener('click',()=>activate(el.dataset.tab)));
     $('topic').innerHTML='<option value="ALL">All topics (mixed test)</option>'+names.map((n,i)=>`<option value="${i}">${escapeHtml(n)}</option>`).join('');
     $('metric-topics').textContent=names.length;
